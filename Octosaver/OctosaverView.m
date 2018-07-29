@@ -18,7 +18,10 @@
 }
 @end
 
-@implementation OctosaverView
+@implementation OctosaverView {
+    NSColor *bgColor;
+    NSColor *fgColor;
+}
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
@@ -45,19 +48,28 @@
 
     _counter = 200;
     _parser = [[Octoparser alloc] init];
+    
+    bgColor = [NSColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1.00];
+    fgColor = [NSColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.00];
 
     self.imageView = [[NSImageView alloc] initWithFrame:[self activeScreenRect]];
+    [self.imageView setWantsLayer:YES];
+    [self.imageView.layer setShadowOffset:CGSizeMake(0, 0)];
+    [self.imageView.layer setShadowRadius:3.0];
+    [self.imageView.layer setShadowOpacity:1.0];
+    [self.imageView.layer setShadowColor:fgColor.CGColor];
+    [self.imageView.layer setMasksToBounds:YES];
     [self addSubview:self.imageView];
     
     self.label = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, self.bounds.size.width, 100)];
     self.label.autoresizingMask = NSViewWidthSizable;
     self.label.alignment = NSCenterTextAlignment;
-    self.label.backgroundColor = [NSColor clearColor];
+    self.label.backgroundColor = bgColor;
     [self.label setEditable:NO];
     [self.label setBezeled:NO];
-    self.label.textColor = [NSColor blackColor];
+    self.label.textColor = fgColor;
     
-    self.label.font = [NSFont fontWithName:@"Helvetica Neue" size:24.0];
+    self.label.font = [NSFont fontWithName:@"SF Pro Text Light" size:24.0];
     [self addSubview:self.label];
     
     [self refreshOctocat];
@@ -93,7 +105,7 @@
     [super drawRect:rect];
     [self drawOctocat];
 
-    [[NSColor whiteColor] setFill];
+    [bgColor setFill];
     NSRectFill(rect);
 }
 
@@ -140,13 +152,13 @@
 {
     CGRect r = self.imageView.frame;
     r.origin.x = self.bounds.size.width / 2 - r.size.width / 2;
-    r.origin.y = self.bounds.size.height / 2 - r.size.height / 2.4;
+    r.origin.y = self.bounds.size.height / 2 - r.size.height / 2.1;
     self.imageView.frame = r;
 
     NSSize s = [self.label.stringValue sizeWithAttributes:@{NSFontAttributeName: self.label.font}];
     CGRect rl = self.label.frame;
     rl.size.height = s.height;
-    rl.origin.y = self.imageView.frame.origin.y - 60;
+    rl.origin.y = self.imageView.frame.origin.y;
     self.label.frame = rl;
     self.label.textColor = [NSColor blackColor];
     
