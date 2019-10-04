@@ -160,7 +160,7 @@
     rl.size.height = s.height;
     rl.origin.y = self.imageView.frame.origin.y;
     self.label.frame = rl;
-    self.label.textColor = [NSColor blackColor];
+    self.label.textColor = [NSColor whiteColor];
     
 }
 

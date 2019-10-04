@@ -27,7 +27,7 @@
     [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:githubUrl]
                               onCompletion:^(NSData *data, NSInteger statusCode) {
                                   TFHpple *doc = [[TFHpple alloc] initWithHTMLData:data];
-                                  NSArray *elements = [doc searchWithXPathQuery:@"//a[@class='preview-image']/img"];
+                                  NSArray *elements = [doc searchWithXPathQuery:@"//div[contains(@class,'post')]/a/img"];
                                   NSUInteger randomIndex = arc4random() % [elements count];
                                   TFHppleElement *element = [elements objectAtIndex:randomIndex];
                                   NSDictionary *attributes = [element attributes];
